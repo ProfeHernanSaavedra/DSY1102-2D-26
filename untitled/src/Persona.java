@@ -21,6 +21,12 @@ public class Persona {
         this.sexo = sexo;
     }
 
+    public Persona(String nombre,char sexo)
+    {
+        this.nombre = nombre;
+        this.sexo = sexo;
+    }
+
     //métodos acceder a los atributos (getter - get) -> accesadores
     //métodos cambiar los atributos (setter -set) -> mutadores
 
@@ -62,8 +68,31 @@ public class Persona {
 
     @Override
     public String toString() {
-
         return "Nombre: " + this.getNombre() + " Apellido: " + apellido;
+    }
+
+    //método customer
+    //método que valide la edad
+    public void validarEdad()
+    {
+        if(this.edad > 0 )
+        {
+            System.out.println(this.getEdad() + " años es una edad válida!");
+        }
+        else
+        {
+            System.out.println(this.getEdad() + " La edad no es válida!!");
+        }
+    }
+
+    //ahora con retorno
+    public boolean validarEdad(int edad)
+    {
+        if (edad > 0)
+        {
+            return true;
+        }
+        return false;
     }
 
 

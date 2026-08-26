@@ -19,5 +19,28 @@ public class Principal {
         System.out.println("USANDO TOSTRING");
         Persona per3 = new Persona();
         System.out.println(per3);
+        per2.validarEdad();
+        per3.validarEdad();
+        per1.validarEdad();
+        per2.setEdad(25);
+        per2.validarEdad();
+
+        Persona per4 = new Persona("Maria",null,0,'f' );
+        Persona per5 = new Persona("Maria",'f' );
+        per5.validarEdad();
+        per4.validarEdad();
+
+        //lamar al metodo validad edad con parámetro
+        //System.out.println(per1.validarEdad(per3.getEdad()));
+        if (per1.validarEdad(per4.getEdad()))
+        {
+            System.out.println("La edad es válida");
+        }
+        else{
+            System.out.println("No es válidad la edad");
+        }
+
+
+
     }
 }
