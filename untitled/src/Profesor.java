@@ -16,10 +16,4 @@ public class Profesor {
         this.nombre = nombre;
     }
 
-    @Override
-    public String toString() {
-        return "Profesor{" +
-                "nombre='" + nombre + '\'' +
-                '}';
-    }
 }
