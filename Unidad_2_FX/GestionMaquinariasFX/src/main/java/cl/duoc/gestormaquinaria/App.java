@@ -1,9 +1,12 @@
+
 package cl.duoc.gestormaquinaria;
 
 import javafx.application.Application;
+import javafx.collections.FXCollections;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -17,62 +20,87 @@ public class App extends Application {
     @Override
     public void start(Stage stage) throws Exception {
 
+        System.out.println("2. Ejecutando start()");
+
+        // GESTOR DE MAQUINARIAS
         GestorMaquina gestor = new GestorMaquina();
-        System.out.println("2. Ejecutando start");
 
-        // 1. Ekementos de la pantalla inicial
 
-        Label titulo = new Label("Sistema de Gestión de Maquinaria");
+        // ============================================
+        // PANTALLA 1: INICIO
+        // ============================================
+
+        Label titulo = new Label(
+                "Sistema de Gestión de Maquinaria"
+        );
 
         Button btnIngresar = new Button("Ingresar");
 
+        Button btnVerMaquinas = new Button(
+                "Ver maquinarias registradas"
+        );
+
         VBox root = new VBox(20);
 
-        root.getChildren().add(titulo);
-        root.getChildren().add(btnIngresar);
+        root.getChildren().addAll(
+                titulo,
+                btnIngresar,
+                btnVerMaquinas
+        );
 
         root.setAlignment(Pos.CENTER);
 
-//        btnIngresar.setOnAction(event -> {
-//            titulo.setText("Bienvenido a java FX!!!!");
-//        });
-
         Scene sceneInicio = new Scene(root, 600, 550);
 
-        //2. Elementos de la pantalla registro
 
-        Label tituloRegistro = new Label("Registro Maquinaria");
+        // ============================================
+        // PANTALLA 2: REGISTRO
+        // ============================================
+
+        Label tituloRegistro = new Label(
+                "Registro de Maquinaria"
+        );
 
         Label lblCodigo = new Label("Código:");
+
         TextField txtCodigo = new TextField();
         txtCodigo.setPromptText("Ejemplo: EXC-001");
         txtCodigo.setMaxWidth(250);
 
 
         Label lblTipo = new Label("Tipo de máquina:");
+
         ComboBox<String> cmbTipo = new ComboBox<>();
-        cmbTipo.getItems().add("Excavadora");
-        cmbTipo.getItems().add("Cargador Frontal");
+
+        cmbTipo.getItems().addAll(
+                "Excavadora",
+                "Cargador Frontal"
+        );
+
         cmbTipo.setPromptText("Seleccione un tipo");
         cmbTipo.setMaxWidth(250);
 
 
         Label lblHoras = new Label("Horas de uso:");
+
         TextField txtHoras = new TextField();
         txtHoras.setPromptText("Ejemplo: 1500");
         txtHoras.setMaxWidth(250);
+
+
         Label lblPotencia = new Label("Potencia:");
+
         TextField txtPotencia = new TextField();
         txtPotencia.setPromptText("Ejemplo: 250");
         txtPotencia.setMaxWidth(250);
 
+
         Button btnGuardar = new Button("Guardar");
-        Button btnVolver = new Button("Volver al Inicio");
+
+        Button btnVolver = new Button("Volver al inicio");
+
 
         VBox rootRegistro = new VBox(10);
-
-//        rootRegistro.getChildren().add(tituloRegistro);
-//        rootRegistro.getChildren().add(btnVolver);
 
         rootRegistro.getChildren().addAll(
                 tituloRegistro,
@@ -86,73 +114,197 @@ public class App extends Application {
                 txtPotencia,
                 btnGuardar,
                 btnVolver
-
         );
 
         rootRegistro.setAlignment(Pos.CENTER);
 
-        Scene sceneRegistro = new Scene(rootRegistro, 600, 550);
+        Scene sceneRegistro = new Scene(
+                rootRegistro,
+                600,
+                550
+        );
 
-        // 3. Eventos de navegación
+
+        // ============================================
+        // PANTALLA 3: LISTADO DE MAQUINARIAS
+        // ============================================
+
+        Label tituloListado = new Label(
+                "Maquinarias Registradas"
+        );
+
+        // Crear la tabla
+        TableView<Maquina> tablaMaquinas = new TableView<>();
+
+
+        // Crear columnas
+
+        TableColumn<Maquina, String> colCodigo =
+                new TableColumn<>("Código");
+
+        TableColumn<Maquina, String> colTipo =
+                new TableColumn<>("Tipo");
+
+        TableColumn<Maquina, Integer> colHoras =
+                new TableColumn<>("Horas de uso");
+
+        TableColumn<Maquina, Integer> colPotencia =
+                new TableColumn<>("Potencia");
+
+
+        // Vincular columnas con los getters de Maquina
+
+        colCodigo.setCellValueFactory(
+                new PropertyValueFactory<>("codigo")
+        );
+
+        colTipo.setCellValueFactory(
+                new PropertyValueFactory<>("tipo")
+        );
+
+        colHoras.setCellValueFactory(
+                new PropertyValueFactory<>("horasUso")
+        );
+
+        colPotencia.setCellValueFactory(
+                new PropertyValueFactory<>("potencia")
+        );
+
+
+        // Agregar columnas a la tabla
+
+        tablaMaquinas.getColumns().addAll(
+                colCodigo,
+                colTipo,
+                colHoras,
+                colPotencia
+        );
+
+        tablaMaquinas.setColumnResizePolicy(
+                TableView.CONSTRAINED_RESIZE_POLICY
+        );
+
+
+        // Botón para volver
+
+        Button btnVolverListado = new Button(
+                "Volver al inicio"
+        );
+
+
+        // Diseño de la pantalla de listado
+
+        VBox rootListado = new VBox(15);
+
+        rootListado.getChildren().addAll(
+                tituloListado,
+                tablaMaquinas,
+                btnVolverListado
+        );
+
+        rootListado.setAlignment(Pos.CENTER);
+        rootListado.setStyle("-fx-padding: 20;");
+
+
+        // Crear tercera escena
+
+        Scene sceneListado = new Scene(
+                rootListado,
+                750,
+                550
+        );
+
+
+        // ============================================
+        // EVENTOS DE NAVEGACIÓN
+        // ============================================
+
+        // Ir desde inicio al formulario
+
         btnIngresar.setOnAction(event -> {
+
             stage.setScene(sceneRegistro);
+
         });
+
+
+        // Volver desde registro al inicio
 
         btnVolver.setOnAction(event -> {
+
             stage.setScene(sceneInicio);
+
         });
 
-//        btnGuardar.setOnAction(event -> {
-//
-//            String codigo = txtCodigo.getText();
-//
-//            String tipo = cmbTipo.getValue();
-//
-//            String horas = txtHoras.getText();
-//
-//            String potencia = txtPotencia.getText();
-//
-//            System.out.println("Código: " + codigo);
-//            System.out.println("Tipo: " + tipo);
-//            System.out.println("Horas: " + horas);
-//            System.out.println("Potencia: " + potencia);
-//
-//        });
+
+        // Ver maquinarias registradas
+
+        btnVerMaquinas.setOnAction(event -> {
+
+            tablaMaquinas.setItems(
+                    FXCollections.observableArrayList(
+                            gestor.listarMaquinas()
+                    )
+            );
+
+            stage.setScene(sceneListado);
+
+        });
+
+
+        // Volver desde listado al inicio
+
+        btnVolverListado.setOnAction(event -> {
+
+            stage.setScene(sceneInicio);
+
+        });
+
+
+        // ============================================
+        // EVENTO GUARDAR MAQUINARIA
+        // ============================================
 
         btnGuardar.setOnAction(event -> {
 
-            // 1. OBTENER EL CÓDIGO
+            // 1. VALIDAR CÓDIGO
 
             String codigo = txtCodigo.getText().trim();
 
             if (codigo.isEmpty()) {
 
-                Alert alerta = new Alert(Alert.AlertType.ERROR);
+                Alert alerta = new Alert(
+                        Alert.AlertType.ERROR
+                );
+
                 alerta.setTitle("Error de validación");
                 alerta.setHeaderText("Código obligatorio");
                 alerta.setContentText(
                         "Debe ingresar el código de la maquinaria."
                 );
-                alerta.showAndWait();
 
+                alerta.showAndWait();
                 return;
             }
 
 
-            // 2. VALIDAR TIPO DE MAQUINARIA
+            // 2. VALIDAR TIPO
 
             String tipo = cmbTipo.getValue();
 
             if (tipo == null) {
 
-                Alert alerta = new Alert(Alert.AlertType.ERROR);
+                Alert alerta = new Alert(
+                        Alert.AlertType.ERROR
+                );
+
                 alerta.setTitle("Error de validación");
                 alerta.setHeaderText("Tipo obligatorio");
                 alerta.setContentText(
                         "Debe seleccionar un tipo de maquinaria."
                 );
-                alerta.showAndWait();
 
+                alerta.showAndWait();
                 return;
             }
 
@@ -169,27 +321,34 @@ public class App extends Application {
 
             } catch (NumberFormatException e) {
 
-                Alert alerta = new Alert(Alert.AlertType.ERROR);
+                Alert alerta = new Alert(
+                        Alert.AlertType.ERROR
+                );
+
                 alerta.setTitle("Error de validación");
                 alerta.setHeaderText("Horas incorrectas");
                 alerta.setContentText(
                         "Las horas de uso deben ser un número entero."
                 );
-                alerta.showAndWait();
 
+                alerta.showAndWait();
                 return;
             }
 
+
             if (horas < 0) {
 
-                Alert alerta = new Alert(Alert.AlertType.ERROR);
+                Alert alerta = new Alert(
+                        Alert.AlertType.ERROR
+                );
+
                 alerta.setTitle("Error de validación");
                 alerta.setHeaderText("Horas incorrectas");
                 alerta.setContentText(
                         "Las horas de uso no pueden ser negativas."
                 );
-                alerta.showAndWait();
 
+                alerta.showAndWait();
                 return;
             }
 
@@ -206,51 +365,39 @@ public class App extends Application {
 
             } catch (NumberFormatException e) {
 
-                Alert alerta = new Alert(Alert.AlertType.ERROR);
+                Alert alerta = new Alert(
+                        Alert.AlertType.ERROR
+                );
+
                 alerta.setTitle("Error de validación");
                 alerta.setHeaderText("Potencia incorrecta");
                 alerta.setContentText(
                         "La potencia debe ser un número entero."
                 );
-                alerta.showAndWait();
 
+                alerta.showAndWait();
                 return;
             }
 
+
             if (potencia <= 0) {
 
-                Alert alerta = new Alert(Alert.AlertType.ERROR);
+                Alert alerta = new Alert(
+                        Alert.AlertType.ERROR
+                );
+
                 alerta.setTitle("Error de validación");
                 alerta.setHeaderText("Potencia incorrecta");
                 alerta.setContentText(
                         "La potencia debe ser mayor que cero."
                 );
-                alerta.showAndWait();
 
+                alerta.showAndWait();
                 return;
             }
 
 
-//            // 5. TODOS LOS DATOS SON VÁLIDOS
-//
-//            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
-//
-//            alerta.setTitle("Registro correcto");
-//            alerta.setHeaderText("Datos validados");
-//
-//            alerta.setContentText(
-//                    "Código: " + codigo +
-//                            "\nTipo: " + tipo +
-//                            "\nHoras de uso: " + horas +
-//                            "\nPotencia: " + potencia
-//            );
-//
-//            alerta.showAndWait();
-//
-//        });
-
-
-        // 5. CREAR EL OBJETO SEGÚN EL TIPO SELECCIONADO
+            // 5. CREAR OBJETO MAQUINA
 
             Maquina nuevaMaquina;
 
@@ -272,36 +419,50 @@ public class App extends Application {
 
             } else {
 
-                Alert alerta = new Alert(Alert.AlertType.ERROR);
+                Alert alerta = new Alert(
+                        Alert.AlertType.ERROR
+                );
+
                 alerta.setTitle("Error");
                 alerta.setHeaderText("Tipo no reconocido");
-                alerta.setContentText("Seleccione un tipo de maquinaria válido.");
-                alerta.showAndWait();
+                alerta.setContentText(
+                        "Seleccione un tipo de maquinaria válido."
+                );
 
+                alerta.showAndWait();
                 return;
             }
 
-            // 6. REGISTRAR LA MAQUINARIA
 
-            boolean registrado = gestor.agregarMaquina(nuevaMaquina);
+            // 6. REGISTRAR EN EL GESTOR
+
+            boolean registrado =
+                    gestor.agregarMaquina(nuevaMaquina);
+
 
             if (!registrado) {
 
-                Alert alerta = new Alert(Alert.AlertType.ERROR);
+                Alert alerta = new Alert(
+                        Alert.AlertType.ERROR
+                );
+
                 alerta.setTitle("Registro rechazado");
                 alerta.setHeaderText("Código duplicado");
                 alerta.setContentText(
-                        "Ya existe una maquinaria con el código: " + codigo
+                        "Ya existe una maquinaria con el código: "
+                                + codigo
                 );
-                alerta.showAndWait();
 
+                alerta.showAndWait();
                 return;
             }
 
 
-            // 7. CONFIRMAR EL REGISTRO
+            // 7. MOSTRAR CONFIRMACIÓN
 
-            Alert alerta = new Alert(Alert.AlertType.INFORMATION);
+            Alert alerta = new Alert(
+                    Alert.AlertType.INFORMATION
+            );
 
             alerta.setTitle("Registro correcto");
             alerta.setHeaderText("Maquinaria registrada");
@@ -311,24 +472,31 @@ public class App extends Application {
                             "\nTipo: " + nuevaMaquina.getTipo() +
                             "\nHoras de uso: " + nuevaMaquina.getHorasUso() +
                             "\nPotencia: " + nuevaMaquina.getPotencia() +
-                            "\n\nTotal registrado: " + gestor.cantidadMaquinas()
+                            "\n\nTotal registrado: "
+                            + gestor.cantidadMaquinas()
             );
 
             alerta.showAndWait();
 
 
-        // 8. LIMPIAR EL FORMULARIO
+            // 8. LIMPIAR FORMULARIO
 
             txtCodigo.clear();
+
             cmbTipo.getSelectionModel().clearSelection();
+
             txtHoras.clear();
+
             txtPotencia.clear();
 
             txtCodigo.requestFocus();
 
         });
 
-        // 4. Configuración de la ventana
+
+        // ============================================
+        // CONFIGURACIÓN DE LA VENTANA PRINCIPAL
+        // ============================================
 
         stage.setTitle("Sistema de Gestión de Maquinaria");
 
@@ -338,15 +506,18 @@ public class App extends Application {
 
     }
 
+
     @Override
     public void stop() throws Exception {
+
         System.out.println("3. Ejecutando stop()");
+
     }
 
-    //main + tab
+
     public static void main(String[] args) {
+
         launch();
+
     }
-
-
 }
