@@ -1,0 +1,44 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Pos?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.VBox?>
+
+<VBox xmlns:fx="http://javafx.com/fxml"
+      fx:controller="cl.duoc.gestormaquinaria.controller.RegistroController"
+      alignment="CENTER"
+      spacing="10"
+      prefWidth="600"
+      prefHeight="550"
+      style="-fx-padding: 20;">
+
+    <Label text="Registro de Maquinaria"/>
+
+    <Label text="Código:"/>
+    <TextField fx:id="txtCodigo"
+               promptText="Ejemplo: EXC-001"
+               maxWidth="250"/>
+
+    <Label text="Tipo de máquina:"/>
+    <ComboBox fx:id="cmbTipo"
+              promptText="Seleccione un tipo"
+              maxWidth="250"/>
+
+    <Label text="Horas de uso:"/>
+    <TextField fx:id="txtHoras"
+               promptText="Ejemplo: 1500"
+               maxWidth="250"/>
+
+    <Label text="Potencia:"/>
+    <TextField fx:id="txtPotencia"
+               promptText="Ejemplo: 250"
+               maxWidth="250"/>
+
+    <Button text="Guardar"
+            onAction="#guardarMaquina"/>
+
+    <Button text="Volver al inicio"
+            onAction="#volverInicio"/>
+
+</VBox>
